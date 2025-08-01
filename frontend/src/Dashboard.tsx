@@ -32,7 +32,7 @@ export default function Dashboard({
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <header className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Welcome, {username}</h1>
+        <h1 className="text-2xl font-bold">Welcome, {username}</h1>
         <button
           onClick={onLogout}
           className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"

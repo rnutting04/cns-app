@@ -1,35 +1,72 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.tsx
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import Login from "./Login";
+import Dashboard from "./Dashboard";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [username, setUsername] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Check if user is authenticated (via cookie)
+  useEffect(() => {
+    fetch("http://localhost:8080/api/auth/me", {
+      credentials: "include",
+    })
+      .then((res) => {
+        if (res.status === 401) {
+            console.log("Not authenticated");
+            return;
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setUsername(data.username);
+      })
+      .catch(() => setUsername(null))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleLogout = async () => {
+    console.log("Logging out...");
+    await fetch("http://localhost:8080/api/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+    setUsername(null);
+    console.log("Logged out");
+  };
+
+  if (loading) return <div className="p-4">Loading...</div>;
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/login"
+          element={
+            username ? (
+              <Navigate to="/dashboard" />
+            ) : (
+              <Login onLogin={(name) => setUsername(name)} />
+            )
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            username ? (
+              <Dashboard username={username} onLogout={handleLogout} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/"
+          element={<Navigate to={username ? "/dashboard" : "/login"} />}
+        />
+      </Routes>
+    </BrowserRouter>
+  );
 }
-
-export default App

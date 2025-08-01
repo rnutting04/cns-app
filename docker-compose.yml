@@ -1,0 +1,49 @@
+services:
+  auth:
+    build: ./auth
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    restart: always
+
+  doc-gen:
+    build: ./doc-gen
+    ports:
+      - "8001:8001"
+    restart: always
+
+  doc-parser:
+    build: ./doc-parser
+    ports:
+      - "8002:8002"
+    restart: always
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_AUTH_URL=${VITE_AUTH_URL}
+      - VITE_DOCGEN_URL=${VITE_DOCGEN_URL}
+      - VITE_DOCPARSE_URL=${VITE_DOCPARSE_URL}
+    restart: always
+    command: npm run dev
+
+  database:
+    image: postgres:15
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+     
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+        
+volumes:
+  pgdata:

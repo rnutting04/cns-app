@@ -1,6 +1,8 @@
 package models
 
-import "github.com/lib/pq"
+import (
+	"github.com/lib/pq"
+)
 
 type User struct {
 	ID       string `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`

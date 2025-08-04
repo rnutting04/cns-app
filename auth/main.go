@@ -11,6 +11,7 @@ import (
 func main() {
 	db.InitDB()
 	db.SeedAdmin(db.DB)
+	db.SeedUsers(db.DB)
     app := fiber.New()
     // ✅ Allow all origins for dev
     app.Use(cors.New(cors.Config{

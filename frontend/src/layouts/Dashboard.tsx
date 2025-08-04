@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Topbar from "../components/Topbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Dashboard({
   username,
@@ -31,23 +31,46 @@ export default function Dashboard({
       alert("Failed to contact generator service.");
     }
   };
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(
+    () => window.innerWidth >= 640
+  );
+  function useIsMobile(breakpoint = 640) {
+    const [isMobile, setIsMobile] = useState(
+      () => window.innerWidth < breakpoint
+    );
 
-  const toggleSidebar = () => {
-    setSidebarOpen((prev) => !prev);
-  };
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth < breakpoint);
+      };
+
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, [breakpoint]);
+
+    return isMobile;
+  }
+
+  const isMobile = useIsMobile();
 
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
       <Sidebar isOpen={sidebarOpen} />
 
-      {/* Main content area (includes Topbar + content) */}
+      {isMobile && sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
+          className="fixed inset-0 z-40 sm:hidden"
+        />
+      )}
       <div className="flex-1 flex flex-col">
         <Topbar
           username={username}
           onLogout={onLogout}
-          onToggleSidebar={toggleSidebar}
+          onToggleSidebar={() => setSidebarOpen((prev) => !prev)}
+          isMobile={isMobile}
         />
 
         <main className="flex-1 bg-gray-900 text-white overflow-y-auto">

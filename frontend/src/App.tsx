@@ -1,8 +1,14 @@
 // src/App.tsx
-import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 import { useEffect, useState } from "react";
 import Login from "./Login";
-import Dashboard from "./Dashboard";
+import Dashboard from "./layouts/Dashboard";
 
 export default function App() {
   const [username, setUsername] = useState<string | null>(null);
@@ -15,8 +21,8 @@ export default function App() {
     })
       .then((res) => {
         if (res.status === 401) {
-            console.log("Not authenticated");
-            return;
+          console.log("Not authenticated");
+          return;
         }
         return res.json();
       })

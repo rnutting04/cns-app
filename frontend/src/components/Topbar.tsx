@@ -20,14 +20,12 @@ export default function Topbar({
           </button>
         )}
         {isMobile ? null : (
-          <h1 className="text-2xl font-bold justify-between text-black">
-            Welcome, {username}
-          </h1>
+          <h1 className="text-2xl font-bold text-black">Welcome, {username}</h1>
         )}
       </div>
       <button
         onClick={onLogout}
-        className="bg-red-500 hover:bg-red-600 text-black px-4 py-2 rounded-lg"
+        className="bg-red-500 hover:bg-red-700 text-black px-4 py-2 rounded-lg"
       >
         Logout
       </button>

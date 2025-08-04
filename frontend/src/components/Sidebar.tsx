@@ -1,5 +1,5 @@
 import logo from "../assets/logo.png";
-import { Home, User, Settings } from "lucide-react";
+import { Settings, BarChart3, FileText, Upload } from "lucide-react";
 
 export default function Sidebar({ isOpen }: { isOpen: boolean }) {
   return (
@@ -7,7 +7,7 @@ export default function Sidebar({ isOpen }: { isOpen: boolean }) {
       className={`
     h-full bg-white text-black shadow-md transition-all duration-300
     z-50 overflow-hidden
-    ${isOpen ? "w-48 opacity-100" : "w-0 opacity-0"}
+    ${isOpen ? "w-64 opacity-100" : "w-0 opacity-0"}
     fixed sm:static
     ${isOpen ? "translate-x-0" : "-translate-x-full"}
     sm:translate-x-0
@@ -18,12 +18,14 @@ export default function Sidebar({ isOpen }: { isOpen: boolean }) {
           isOpen ? "opacity-100" : "opacity-0"
         } transition-opacity duration-300`}
       >
-        <div className="p-4 pb-2 flex items-center justify-center">
-          <img src={logo} alt="Logo" className="w-28" />
+        <div className="p-4 pb-2 flex items-center">
+          <img src={logo} alt="Logo" className="w-16" />
+          <span>Applications</span>
         </div>
-        <ul className="flex-1 px-3 space-y-2">
-          <SidebarItem icon={<Home />} label="Dashboard" />
-          <SidebarItem icon={<User />} label="Profile" />
+        <ul className="flex-1 px-1">
+          <SidebarItem icon={<BarChart3 />} label="Dashboard" />
+          <SidebarItem icon={<Upload />} label="File Parser" />
+          <SidebarItem icon={<FileText />} label="Document Generator" />
           <SidebarItem icon={<Settings />} label="Settings" />
         </ul>
         <div className="p-4">

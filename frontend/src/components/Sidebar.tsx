@@ -1,7 +1,13 @@
 import logo from "../assets/logo.png";
 import { Settings, BarChart3, FileText, Upload } from "lucide-react";
 
-export default function Sidebar({ isOpen }: { isOpen: boolean }) {
+export default function Sidebar({
+  isOpen,
+  username,
+}: {
+  isOpen: boolean;
+  username: string;
+}) {
   return (
     <aside
       className={`
@@ -29,7 +35,7 @@ export default function Sidebar({ isOpen }: { isOpen: boolean }) {
           <SidebarItem icon={<Settings />} label="Settings" />
         </ul>
         <div className="p-4">
-          <h4 className="font-semibold text-sm text-black">John Doe</h4>
+          <h4 className="font-semibold text-sm text-black">{username}</h4>
           <p className="text-xs text-gray-500">john@example.com</p>
         </div>
       </nav>

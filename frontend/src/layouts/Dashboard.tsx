@@ -31,6 +31,7 @@ export default function Dashboard({
       alert("Failed to contact generator service.");
     }
   };
+  //determine mobile use
   const [sidebarOpen, setSidebarOpen] = useState(
     () => window.innerWidth >= 640
   );
@@ -56,7 +57,7 @@ export default function Dashboard({
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
-      <Sidebar isOpen={sidebarOpen} />
+      <Sidebar isOpen={sidebarOpen} username={username} />
 
       {isMobile && sidebarOpen && (
         <div

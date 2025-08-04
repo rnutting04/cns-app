@@ -1,15 +1,23 @@
 import logo from "../assets/logo.png";
 import { Home, User, Settings } from "lucide-react";
 
-export function Sidebar({ onClose }: { onClose: () => void }) {
+type SidebarProps = {
+  isOpen: Boolean;
+};
+
+export default function Sidebar({ isOpen }: SidebarProps) {
   return (
-    <aside className="hidden sm:block w-50 h-full bg-white border-r shadow-sm transform transition-transform duration-300">
+    <aside
+      className={`fixed top-0 left-0 h-full w-64 bg-white text-black z-40 shadow-lg transform transition-transform duration-300
+        ${isOpen ? "translate-x-0" : "-translate-x-full"} 
+        sm:translate-x-0 sm:static sm:block`}
+    >
       <nav className="h-full flex flex-col">
-        <div className="p-4 pb-2 flex items-center justify-between">
+        <div className="p-4 pb-2 flex items-center justify-center">
           <img src={logo} alt="Logo" className="w-32" />
           <button
             className="p-2 rounded hover:bg-gray-200"
-            onClick={onClose}
+            onClick={isOpen}
           ></button>
         </div>
 

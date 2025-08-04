@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { Sidebar } from "../components/Sidebar";
+import Sidebar from "../components/Sidebar";
+import Topbar from "../components/Topbar";
+import { useState } from "react";
 
 export default function Dashboard({
   username,
@@ -29,22 +31,23 @@ export default function Dashboard({
       alert("Failed to contact generator service.");
     }
   };
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setSidebarOpen((prev) => !prev);
+  };
 
   return (
     <div className="flex h-screen">
-      <Sidebar />
-      <main className="flex-1 bg-gray-900 text-white p-6 overflow-y-auto">
-        <header className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold">Welcome, {username}</h1>
-          <button
-            onClick={onLogout}
-            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
-          >
-            Logout
-          </button>
-        </header>
+      <Sidebar isOpen={sidebarOpen} />
+      <main className="flex-1 bg-gray-900 text-white overflow-y-auto">
+        <Topbar
+          username={username}
+          onLogout={onLogout}
+          onToggleSidebar={toggleSidebar}
+        />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 m-4">
           <div className="bg-gray-800 p-6 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-2">Test Document Parser</h2>
             <p className="mb-4 text-gray-300">

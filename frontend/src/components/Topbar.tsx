@@ -1,15 +1,32 @@
 import { Menu } from "lucide-react";
 
-export function Topbar({ onToggleSidebar }: { onToggleSidebar: () => void }) {
+type TopbarProps = {
+  username: string;
+  onLogout: () => void;
+  onToggleSidebar?: () => void;
+};
+
+export default function Topbar({
+  username,
+  onLogout,
+  onToggleSidebar,
+}: TopbarProps) {
   return (
-    <header className="h-14 px-4 flex items-center bg-white border-b shadow-sm">
+    <header className="flex justify-between items-center px-4 py-4 bg-gray-500 shadow-md sticky top-0 z-30">
+      <div className="flex items-center gap-4">
+        {onToggleSidebar && (
+          <button onClick={onToggleSidebar} className=" text-white">
+            <Menu className="h-6 w-6" />
+          </button>
+        )}
+        <h1 className="text-2xl font-bold text-white"> Welcome, {username}</h1>
+      </div>
       <button
-        onClick={onToggleSidebar}
-        className="p-2 rounded hover:bg-gray-100"
+        onClick={onLogout}
+        className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
       >
-        <Menu />
+        Logout
       </button>
-      <h1 className="ml-4 text-lg font-semibold">Dashboard</h1>
     </header>
   );
 }

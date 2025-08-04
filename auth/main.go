@@ -1,8 +1,9 @@
 package main
 
 import (
-	"auth/handlers"
 	"auth/db"
+	"auth/handlers"
+
 	"github.com/gofiber/fiber/v2/middleware/cors"
 
 	"github.com/gofiber/fiber/v2"

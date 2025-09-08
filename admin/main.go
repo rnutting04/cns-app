@@ -17,18 +17,19 @@ func main() {
     app.Use(cors.New(cors.Config{
         AllowOrigins: "http://localhost:5173",
         AllowCredentials: true,
-        AllowMethods: "GET,POST,DELETE,OPTIONS",
+        AllowMethods: "GET,POST,DELETE,OPTIONS,PUT",
         AllowHeaders: "Origin, Content-Type, Accept",
     }))
 
     admin := app.Group("/api/admin",
         middleware.JWTProtected(),
-		middleware.RequireAdmin,
+		middleware.RequireAnyRole("super", "admin"),
     )
 
 	admin.Get("/users", handlers.ListUsers)
 	admin.Post("/users", handlers.CreateUser)
 	admin.Delete("/users/:id", handlers.DeleteUser)
+	admin.Put("/users/:id/role", handlers.UpdateUserRole)
 
     port := os.Getenv("PORT")
     if port == "" {

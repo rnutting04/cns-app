@@ -3,10 +3,15 @@ import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-route
 import { useEffect, useState } from "react";
 import Login from "./Login";
 import Dashboard from "./Dashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AppLayout from "./layouts/AppLayout";
+import UserManagement from "./UserManagement";  
+
 
 export default function App() {
   const [username, setUsername] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [role, setRole] = useState<string | null>(null);
 
   // Check if user is authenticated (via cookie)
   useEffect(() => {
@@ -22,8 +27,12 @@ export default function App() {
       })
       .then((data) => {
         setUsername(data.username);
+        setRole(data.role);
       })
-      .catch(() => setUsername(null))
+      .catch(() => {
+         setUsername(null);
+         setRole(null);
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -34,10 +43,12 @@ export default function App() {
       credentials: "include",
     });
     setUsername(null);
+    setRole(null);
     console.log("Logged out");
   };
 
   if (loading) return <div className="p-4">Loading...</div>;
+  const isLoggedIn = !!username;    
 
   return (
     <BrowserRouter>
@@ -45,27 +56,46 @@ export default function App() {
         <Route
           path="/login"
           element={
-            username ? (
-              <Navigate to="/dashboard" />
+            isLoggedIn ? (
+              <Navigate to="/dashboard" replace />
             ) : (
-              <Login onLogin={(name) => setUsername(name)} />
+              <Login onLogin={(name: string, role: string) => { 
+                                    setUsername(name); 
+                                    setRole(role);
+                                }} />
             )
           }
         />
         <Route
-          path="/dashboard"
-          element={
-            username ? (
-              <Dashboard username={username} onLogout={handleLogout} />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-        <Route
-          path="/"
-          element={<Navigate to={username ? "/dashboard" : "/login"} />}
-        />
+          element={<AppLayout username={username} role={role} onLogout={handleLogout} />}
+        >
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute
+                  isLoggedIn={isLoggedIn}
+                  role={role ?? undefined}
+                  allowedRoles={["admin", "super", "user"]}
+                >
+                <Dashboard username={username} onLogout={handleLogout} role={role} />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/admin/users" element={
+                <ProtectedRoute
+                  isLoggedIn={isLoggedIn}
+                  role={role ?? undefined}
+                  allowedRoles={["admin", "super"]}
+                >
+                  <UserManagement />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/"
+              element={<Navigate to={username ? "/dashboard" : "/login"} />}
+            />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

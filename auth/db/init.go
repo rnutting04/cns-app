@@ -8,37 +8,37 @@ import (
     "os"
 )
 
-func SeedAdmin(db *gorm.DB) {
+func SeedSuperUser(db *gorm.DB) {
     var count int64
-    db.Model(&models.User{}).Where("role = ?", "admin").Count(&count)
+    db.Model(&models.User{}).Where("role = ?", "super").Count(&count)
 
     if count == 0 {
-        // ✅ Get the password from environment variable
-        defaultPassword := os.Getenv("DEFAULT_ADMIN_PASSWORD")
+        //  Get the password from environment variable
+        defaultPassword := os.Getenv("DEFAULT_SUPER_USER_PASSWORD")
         if defaultPassword == "" {
-            log.Fatal("❌ DEFAULT_ADMIN_PASSWORD environment variable is not set")
+            log.Fatal(" DEFAULT_SUPER_USER_PASSWORD environment variable is not set")
         }
 
-        // ✅ Hash the password securely
+        //  Hash the password securely
         hashed, err := bcrypt.GenerateFromPassword([]byte(defaultPassword), bcrypt.DefaultCost)
         if err != nil {
-            log.Fatalf("❌ Failed to hash password: %v", err)
+            log.Fatalf(" Failed to hash password: %v", err)
         }
 
-        // ✅ Create admin user
-		admin := models.User{
-			Username: "admin",
+        //  Create super user
+		superUser := models.User{
+			Username: "super",
             Password: string(hashed),
-            Role:     "admin",
+            Role:     "super",
         }
 
-        if err := db.Create(&admin).Error; err != nil {
-            log.Fatalf("❌ Failed to seed admin: %v", err)
+        if err := db.Create(&superUser).Error; err != nil {
+            log.Fatalf(" Failed to seed super user: %v", err)
         }
 
-        log.Println("✅ Seeded default admin (username: admin)")
+        log.Println(" Seeded default super user (username: super)")
     } else {
-        log.Println("🔒 Admin already exists, skipping seeding.")
+        log.Println(" Super user already exists, skipping seeding.")
     }
 }
 
@@ -54,13 +54,12 @@ func SeedUsers(db *gorm.DB) {
 		Username:    "user1",
 		Password:    string(hashedPassword),
 		Role:        "user",
-		Permissions: []string{"doc_parser"}, // Only allow parser access
 	}
 
 	if err := db.Create(&user).Error; err != nil {
-		log.Println("❌ Failed to seed regular user:", err)
+		log.Println(" Failed to seed regular user:", err)
 		return
 	}
 
-	log.Println("✅ Seeded regular user: user1")
+	log.Println(" Seeded regular user: user1")
 }

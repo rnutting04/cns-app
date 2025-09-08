@@ -18,16 +18,39 @@ func JWTProtected() fiber.Handler {
 	})
 }
 
-func RequireAdmin(c *fiber.Ctx) error {
-	user := c.Locals("user").(*jwt.Token) // jwt.Token from jwt/v4
-	claims := user.Claims.(jwt.MapClaims) // jwt.MapClaims from jwt/v4
 
-	role, ok := claims["role"].(string)
-	if !ok || role != "admin" {
-		return c.Status(fiber.StatusForbidden).JSON(fiber.Map{
-			"error": "Admins only",
-		})
-	}
+func RequireAnyRole(roles ...string) fiber.Handler {
+    return func(c *fiber.Ctx) error {
+        // Fiber's JWT middleware stores a *jwt.Token in Locals
+        user, ok := c.Locals("user").(*jwt.Token)
+        if !ok || user == nil {
+            return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+                "error": "Invalid or missing token",
+            })
+        }
 
-	return c.Next()
+        claims, ok := user.Claims.(jwt.MapClaims)
+        if !ok {
+            return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+                "error": "Invalid claims",
+            })
+        }
+
+        role, ok := claims["role"].(string)
+        if !ok {
+            return c.Status(fiber.StatusForbidden).JSON(fiber.Map{
+                "error": "Role missing from token",
+            })
+        }
+
+        for _, allowed := range roles {
+            if role == allowed {
+                return c.Next() // ✅ allowed
+            }
+        }
+
+        return c.Status(fiber.StatusForbidden).JSON(fiber.Map{
+            "error": "Insufficient privileges",
+        })
+    }
 }

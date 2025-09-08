@@ -1,7 +1,7 @@
 // src/Login.tsx
 import { useState } from "react";
 
-export default function Login({ onLogin }: { onLogin: (username: string) => void }) {
+export default function Login({ onLogin }: { onLogin: (username: string, role: string) => void }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -28,7 +28,7 @@ export default function Login({ onLogin }: { onLogin: (username: string) => void
         credentials: "include",
       });
       const me = await meRes.json();
-      onLogin(me.username);
+      onLogin(me.username, me.role);
     } catch (err: any) {
       setError(err.message);
     }

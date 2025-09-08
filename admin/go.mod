@@ -1,14 +1,13 @@
-module auth
+module admin
 
-go 1.23.0
-
-toolchain go1.23.11
+go 1.22.2
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.9
-	github.com/golang-jwt/jwt/v5 v5.3.0
+	github.com/gofiber/jwt/v3 v3.3.10
+	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/lib/pq v1.10.9
-	golang.org/x/crypto v0.40.0
+	golang.org/x/crypto v0.31.0
 	gorm.io/driver/postgres v1.6.0
 	gorm.io/gorm v1.30.1
 )
@@ -30,7 +29,7 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.51.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
-	golang.org/x/sync v0.16.0 // indirect
-	golang.org/x/sys v0.34.0 // indirect
-	golang.org/x/text v0.27.0 // indirect
+	golang.org/x/sync v0.10.0 // indirect
+	golang.org/x/sys v0.28.0 // indirect
+	golang.org/x/text v0.21.0 // indirect
 )

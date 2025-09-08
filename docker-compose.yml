@@ -9,6 +9,17 @@ services:
       - database
     restart: always
 
+  admin:
+    build: ./admin
+    ports:
+      - "8082:8082"
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - database
+    restart: always
+
   doc-gen:
     build: ./doc-gen
     ports:

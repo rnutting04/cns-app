@@ -26,8 +26,8 @@ func SeedAdmin(db *gorm.DB) {
         }
 
         // ✅ Create admin user
-        admin := models.User{
-            Username: "admin",
+		admin := models.User{
+			Username: "admin",
             Password: string(hashed),
             Role:     "admin",
         }
@@ -40,4 +40,27 @@ func SeedAdmin(db *gorm.DB) {
     } else {
         log.Println("🔒 Admin already exists, skipping seeding.")
     }
+}
+
+func SeedUsers(db *gorm.DB) {
+	var user models.User
+	if err := db.First(&user, "username = ?", "user1").Error; err == nil {
+		log.Println("👤 Regular user already exists, skipping seeding.")
+		return
+	}
+
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte("user123"), bcrypt.DefaultCost)
+	user = models.User{
+		Username:    "user1",
+		Password:    string(hashedPassword),
+		Role:        "user",
+		Permissions: []string{"doc_parser"}, // Only allow parser access
+	}
+
+	if err := db.Create(&user).Error; err != nil {
+		log.Println("❌ Failed to seed regular user:", err)
+		return
+	}
+
+	log.Println("✅ Seeded regular user: user1")
 }

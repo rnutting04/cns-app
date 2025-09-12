@@ -5,9 +5,10 @@ import (
 	"log"
 	"os"
 
+	"auth/models"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"auth/models"
 )
 
 var DB *gorm.DB
@@ -24,6 +25,6 @@ func InitDB() {
 	}
 
 	DB = db
-	DB.AutoMigrate(&models.User{})
+	DB.AutoMigrate(&models.User{}, &models.Association{}, &models.Manager{})
 	fmt.Println("✅ Connected to PostgreSQL with GORM")
 }

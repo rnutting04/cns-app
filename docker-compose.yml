@@ -24,12 +24,16 @@ services:
     build: ./doc-gen
     ports:
       - "8001:8001"
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
     restart: always
 
   doc-parser:
     build: ./doc-parser
     ports:
       - "8002:8002"
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
     restart: always
 
   frontend:
@@ -55,7 +59,7 @@ services:
     ports:
       - "5432:5432"
 
-  pgadmin: 
+  pgadmin:
     image: dpage/pgadmin4:latest
     container_name: pgadmin
     environment:

@@ -79,7 +79,17 @@ export default function Dashboard({
               onClick={() => navigate("/admin/users")}
               className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-lg font-medium transition"
             >
-              Go to User Management
+              User Management
+            </button>
+          </div>
+        )}
+        {isAdmin && (
+          <div className="bg-gray-800 p-6 rounded-lg shadow flex flex-col justify-center items-center">
+            <button
+              onClick={() => navigate("/admin/data")}
+              className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-lg font-medium transition"
+            >
+              Data Management
             </button>
           </div>
         )}

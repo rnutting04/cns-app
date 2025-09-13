@@ -25,6 +25,6 @@ func InitDB() {
 	}
 
 	DB = db
-	DB.AutoMigrate(&models.User{}, &models.Association{}, &models.Manager{})
+	DB.AutoMigrate(&models.User{})
 	fmt.Println("✅ Connected to PostgreSQL with GORM")
 }

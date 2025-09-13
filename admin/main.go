@@ -12,6 +12,7 @@ import (
 
 func main() {
 	db.InitDB()
+	db.SeedTestData()
     app := fiber.New()
 
     app.Use(cors.New(cors.Config{
@@ -25,11 +26,29 @@ func main() {
         middleware.JWTProtected(),
 		middleware.RequireAnyRole("super", "admin"),
     )
+	
 
 	admin.Get("/users", handlers.ListUsers)
 	admin.Post("/users", handlers.CreateUser)
 	admin.Delete("/users/:id", handlers.DeleteUser)
 	admin.Put("/users/:id/role", handlers.UpdateUserRole)
+    
+	data := admin.Group("/data",
+		middleware.JWTProtected(),
+		middleware.RequireAnyRole("super", "admin"),
+	)
+
+	data.Get("/associations", handlers.ListAssociations)
+	data.Post("/associations", handlers.CreateAssociation)
+	data.Delete("/associations/:id", handlers.DeleteAssociation)
+	data.Put("/associations/:id", handlers.UpdateAssociation)
+    
+	data.Get("/managers", handlers.ListManagers)
+	data.Post("/managers", handlers.CreateManager)
+	data.Delete("/managers/:id", handlers.DeleteManager)
+	data.Put("/managers/:id", handlers.UpdateManager)
+	
+
 
     port := os.Getenv("PORT")
     if port == "" {

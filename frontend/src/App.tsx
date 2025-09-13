@@ -6,6 +6,7 @@ import Dashboard from "./Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AppLayout from "./layouts/AppLayout";
 import UserManagement from "./UserManagement";  
+import DataManagement from "./DataManagement";
 
 
 export default function App() {
@@ -60,9 +61,9 @@ export default function App() {
               <Navigate to="/dashboard" replace />
             ) : (
               <Login onLogin={(name: string, role: string) => { 
-                                    setUsername(name); 
-                                    setRole(role);
-                                }} />
+                            setUsername(name); 
+                            setRole(role);
+                        }} />
             )
           }
         />
@@ -88,6 +89,16 @@ export default function App() {
                   allowedRoles={["admin", "super"]}
                 >
                   <UserManagement />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/admin/data" element={
+                <ProtectedRoute
+                  isLoggedIn={isLoggedIn}
+                  role={role ?? undefined}
+                  allowedRoles={["admin", "super"]}
+                >
+                  <DataManagement />
                 </ProtectedRoute>
               }
             />

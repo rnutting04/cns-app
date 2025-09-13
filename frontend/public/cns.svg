@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <style>
+      .bg{fill:#1e3a8a;}
+      .green{fill:#16a34a;}
+      .white{fill:#ffffff;}
+      .txt{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;font-weight:800;}
+    </style>
+  </defs>
+  <!-- Square badge with monogram -->
+  <rect class="bg" x="8" y="8" width="240" height="240" rx="36"/>
+  <text class="white txt" x="50" y="168" font-size="132">C</text>
+  <text class="green txt" x="121" y="168" font-size="132">&amp;</text>
+  <text class="white txt" x="168" y="168" font-size="132">S</text>
+</svg>

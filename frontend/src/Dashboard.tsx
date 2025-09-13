@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "./components/ui/Button";
 
 export default function Dashboard({
   username,
@@ -38,6 +39,30 @@ export default function Dashboard({
       alert("Failed to contact generator service.");
     }
   };
+
+  // Refreshing services
+  const [times, setTimes] = useState(["poop", "poop2", "poop3"]);
+  const [loading, setLoading] = useState(false);
+
+  const refreshServices = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/service-response");
+      if (!res) throw new Error("Failed to fetch API responses");
+      const data = await res.json();
+      setTimes(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  // useEffect for on page load and admin
+  useEffect(() => {
+    if (isSuper) {
+      refreshServices();
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
@@ -94,6 +119,29 @@ export default function Dashboard({
           </div>
         )}
       </div>
+      {isSuper &&
+        (loading ? (
+          <div className="bg-gray-800 p-6 rounded-lg shadow flex items-start mt-6">
+            <p>Loading...</p>
+          </div>
+        ) : (
+          <div className="bg-gray-800 p-6 rounded-lg shadow flex items-start mt-6 flex flex-row gap-4">
+            <button
+              onClick={refreshServices}
+              className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-lg font-medium transition"
+            >
+              Refresh
+            </button>
+            {times.map((item, index) => (
+              <div
+                key={index}
+                className="bg-gray-700 p-4 rounded-lg shadow flex justify-between items-center"
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+        ))}
     </div>
   );
 }

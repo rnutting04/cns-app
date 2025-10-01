@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "./components/ui/Button";
 
 export default function Dashboard({
   username,
@@ -38,6 +39,61 @@ export default function Dashboard({
       alert("Failed to contact generator service.");
     }
   };
+
+  // Refreshing services
+
+  //typing for dictionary and endpoints
+  type Endpoint = {
+    name: string;
+    duration: number;
+  };
+
+  type Dictionary = {
+    [key: string]: string;
+  };
+
+  const names: Dictionary = {
+    "/api/parse": "parse",
+    "/api/gen": "gen",
+  };
+
+  //usestate for times
+  const [times, setTimes] = useState<Endpoint[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const endpoints = ["/api/parse", "/api/gen"];
+
+  const refreshServices = async () => {
+    setLoading(true);
+    try {
+      const timings = [];
+      for (const url of endpoints) {
+        const start = performance.now();
+        const res = await fetch(url, { credentials: "include" });
+        const end = performance.now();
+        const difference = end - start;
+        const duration = Number(difference.toFixed(0));
+        const endpoint: Endpoint = {
+          name: names[url],
+          duration: duration,
+        };
+
+        timings.push(endpoint);
+        console.log(res);
+      }
+      setTimes(timings);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  // useEffect for on page load and isSuper
+  useEffect(() => {
+    if (isSuper) {
+      refreshServices();
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
@@ -94,6 +150,29 @@ export default function Dashboard({
           </div>
         )}
       </div>
+      {isSuper &&
+        (loading ? (
+          <div className="bg-gray-800 p-6 rounded-lg shadow flex items-start mt-6">
+            <p>Loading...</p>
+          </div>
+        ) : (
+          <div className="bg-gray-800 p-6 rounded-lg shadow flex items-start mt-6 flex flex-row gap-4">
+            <button
+              onClick={refreshServices}
+              className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-lg font-medium transition"
+            >
+              Refresh
+            </button>
+            {times.map((item, index) => (
+              <div
+                key={index}
+                className="bg-gray-700 p-4 rounded-lg shadow flex justify-between items-center"
+              >
+                {item.name}: {item.duration}ms
+              </div>
+            ))}
+          </div>
+        ))}
     </div>
   );
 }

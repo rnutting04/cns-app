@@ -41,23 +41,54 @@ export default function Dashboard({
   };
 
   // Refreshing services
-  const [times, setTimes] = useState(["poop", "poop2", "poop3"]);
+
+  //typing for dictionary and endpoints
+  type Endpoint = {
+    name: string;
+    duration: number;
+  };
+
+  type Dictionary = {
+    [key: string]: string;
+  };
+
+  const names: Dictionary = {
+    "/api/parse": "parse",
+    "/api/gen": "gen",
+  };
+
+  //usestate for times
+  const [times, setTimes] = useState<Endpoint[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const endpoints = ["/api/parse", "/api/gen"];
 
   const refreshServices = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/service-response");
-      if (!res) throw new Error("Failed to fetch API responses");
-      const data = await res.json();
-      setTimes(data);
+      const timings = [];
+      for (const url of endpoints) {
+        const start = performance.now();
+        const res = await fetch(url, { credentials: "include" });
+        const end = performance.now();
+        const difference = end - start;
+        const duration = Number(difference.toFixed(0));
+        const endpoint: Endpoint = {
+          name: names[url],
+          duration: duration,
+        };
+
+        timings.push(endpoint);
+        console.log(res);
+      }
+      setTimes(timings);
     } catch (err) {
-      console.error(err);
+      console.log(err);
     } finally {
       setLoading(false);
     }
   };
-  // useEffect for on page load and admin
+  // useEffect for on page load and isSuper
   useEffect(() => {
     if (isSuper) {
       refreshServices();
@@ -137,7 +168,7 @@ export default function Dashboard({
                 key={index}
                 className="bg-gray-700 p-4 rounded-lg shadow flex justify-between items-center"
               >
-                {item}
+                {item.name}: {item.duration}ms
               </div>
             ))}
           </div>

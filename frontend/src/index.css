@@ -1,1 +1,39 @@
 @import "tailwindcss";
+
+/* Only show scrollbar when the device supports hover */
+@media (hover: hover) {
+
+  /* Keep layout stable when scrollbar appears */
+  .sidebar .scroll-area {
+    scrollbar-gutter: stable both-edges;
+  }
+
+  /* Default: hide scrollbar but allow scrolling */
+  .sidebar .scroll-area {
+    /* Firefox */
+    scrollbar-width: none;
+  }
+  /* WebKit (Chrome/Edge/Safari) */
+  .sidebar .scroll-area::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  /* On sidebar hover: reveal a thin scrollbar */
+  .sidebar:hover .scroll-area {
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.35) transparent;
+  }
+  .sidebar:hover .scroll-area::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .sidebar:hover .scroll-area::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.35);
+    border-radius: 9999px;
+  }
+  .sidebar:hover .scroll-area::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}

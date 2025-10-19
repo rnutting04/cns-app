@@ -96,10 +96,10 @@ export default function Dashboard({
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="min-h-screen bg-[#151827] text-white p-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Parser */}
-        <div className="bg-gray-800 p-6 rounded-lg shadow">
+        <div className="bg-[#1A1F37] p-6 rounded-[0.75rem] shadow border-2 border-[#3C4D66]">
           <h2 className="text-xl font-semibold mb-2">Test Document Parser</h2>
           <p className="mb-4 text-gray-300">
             Make sure the parser service is up and responding.
@@ -113,7 +113,7 @@ export default function Dashboard({
         </div>
 
         {/* Generator */}
-        <div className="bg-gray-800 p-6 rounded-lg shadow">
+        <div className="bg-[#1A1F37] p-6 rounded-lg shadow border-2 border-[#3C4D66]">
           <h2 className="text-xl font-semibold mb-2">
             Test Document Generator
           </h2>
@@ -130,7 +130,7 @@ export default function Dashboard({
 
         {/* Admin Panel */}
         {isAdmin && (
-          <div className="bg-gray-800 p-6 rounded-lg shadow flex flex-col justify-center items-center">
+          <div className="bg-[#1A1F37] p-6 rounded-lg shadow flex flex-col justify-center items-center border-2 border-[#3C4D66]">
             <button
               onClick={() => navigate("/admin/users")}
               className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-lg font-medium transition"
@@ -140,7 +140,7 @@ export default function Dashboard({
           </div>
         )}
         {isAdmin && (
-          <div className="bg-gray-800 p-6 rounded-lg shadow flex flex-col justify-center items-center">
+          <div className="bg-[#1A1F37] p-6 rounded-lg shadow flex flex-col justify-center items-center border-2 border-[#3C4D66]">
             <button
               onClick={() => navigate("/admin/data")}
               className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-lg font-medium transition"
@@ -152,11 +152,11 @@ export default function Dashboard({
       </div>
       {isSuper &&
         (loading ? (
-          <div className="bg-gray-800 p-6 rounded-lg shadow flex items-start mt-6">
+          <div className="bg-[#1A1F37] p-6 rounded-lg shadow flex items-start mt-6">
             <p>Loading...</p>
           </div>
         ) : (
-          <div className="bg-gray-800 p-6 rounded-lg shadow flex items-start mt-6 flex flex-row gap-4">
+          <div className="bg-[#1A1F37] p-6 rounded-lg shadow flex items-start mt-6 flex flex-row gap-4 border-2 border-[#3C4D66]">
             <button
               onClick={refreshServices}
               className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-lg font-medium transition"

@@ -564,7 +564,7 @@ export default function DataManagement() {
             </button>
           </div>
 
-          <div className="overflow-hidden rounded-xl border border-gray-800">
+          <div className="overflow-y-auto max-h-[70vh] rounded-xl border border-gray-800">
             <table className="min-w-full text-sm">
               <thead className="bg-gray-900 text-gray-300">
                 <tr>
@@ -704,14 +704,14 @@ export default function DataManagement() {
                       </td>
 
                       <td className="px-4 py-3 text-right space-x-3">
-                        {rowDirtyCount(dirtyAssoc, a.id) > 0 || a._isNew || a._deleted ? (
+                        {/* {rowDirtyCount(dirtyAssoc, a.id) > 0 || a._isNew || a._deleted ? (
                           <button
                             className="text-yellow-400 hover:text-yellow-300"
                             onClick={() => revertAssociation(a.id)}
                           >
                             Revert
                           </button>
-                        ) : null}
+                        ) : null} */}
                         <button
                           className="text-red-400 hover:text-red-300"
                           onClick={() => stageDeleteAssociation(a.id)}
@@ -745,7 +745,7 @@ export default function DataManagement() {
             </button>
           </div>
 
-          <div className="overflow-hidden rounded-xl border border-gray-800">
+          <div className="overflow-y-auto max-h-[70vh] rounded-xl border border-gray-800">
             <table className="min-w-full text-sm">
               <thead className="bg-gray-900 text-gray-300">
                 <tr>
@@ -858,14 +858,14 @@ export default function DataManagement() {
                       </td>
 
                       <td className="px-4 py-3 text-right space-x-3">
-                        {rowDirtyCount(dirtyMgr, m.id) > 0 || m._isNew || m._deleted ? (
+                        {/* {rowDirtyCount(dirtyMgr, m.id) > 0 || m._isNew || m._deleted ? (
                           <button
                             className="text-yellow-400 hover:text-yellow-300"
                             onClick={() => revertManager(m.id)}
                           >
                             Revert
                           </button>
-                        ) : null}
+                        ) : null} */}
                         <button
                           className="text-red-400 hover:text-red-300"
                           onClick={() => stageDeleteManager(m.id)}

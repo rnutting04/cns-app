@@ -1,4 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
 @import "tailwindcss";
+
+@theme {
+    --font-mont: 'Montserrat', sans-serif;
+}
 
 /* Only show scrollbar when the device supports hover */
 @media (hover: hover) {

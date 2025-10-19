@@ -40,6 +40,10 @@ export default function Dashboard({
     }
   };
 
+  const redirectToConstruction = () => {
+    window.location.href = "/under-construction";
+  };
+
   // Refreshing services
 
   //typing for dictionary and endpoints
@@ -106,7 +110,8 @@ export default function Dashboard({
           </p>
           <button
             className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
-            onClick={runParserTest}
+            //onClick={runParserTest}
+            onClick={redirectToConstruction}
           >
             Run Parser Test
           </button>
@@ -122,7 +127,8 @@ export default function Dashboard({
           </p>
           <button
             className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md"
-            onClick={runGeneratorTest}
+            //onClick={runGeneratorTest}
+            onClick={redirectToConstruction}
           >
             Run Generator Test
           </button>

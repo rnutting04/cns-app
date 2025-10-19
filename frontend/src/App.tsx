@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AppLayout from "./layouts/AppLayout";
 import UserManagement from "./UserManagement";  
 import DataManagement from "./DataManagement";
+import UnderConstruction from "./UnderConstruction";
 
 
 export default function App() {
@@ -70,6 +71,16 @@ export default function App() {
         <Route
           element={<AppLayout username={username} role={role} onLogout={handleLogout} />}
         >
+            <Route path="/under-construction" element={
+              <ProtectedRoute
+                isLoggedIn={isLoggedIn}
+                role = {role ?? undefined}
+                allowedRoles={["admin", "super", "user"]}
+              >
+                  <UnderConstruction />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/dashboard"
               element={

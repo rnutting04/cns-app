@@ -14,12 +14,12 @@ const CollapsibleLink: React.FC<CollapsibleLinkProps> = ({ icon, title, children
         setIsOpen(!isOpen);
     };
 
-  const linkClass = "flex items-center justify-between w-full p-2 rounded-md hover:bg-gray-600 transition-colors";
+  const linkClass = "flex items-center justify-between w-full px-2 h-10 leading-[1.25] rounded-md hover:bg-gray-600 transition-colors";
 
     return (
         <div>
             <button onClick={toggleOpen} className={linkClass}>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-3">
                     {icon}
                     <span className="whitespace-nowrap">{title}</span>
                 </div>

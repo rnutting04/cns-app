@@ -109,7 +109,7 @@ export default function Dashboard({
             Make sure the parser service is up and responding.
           </p>
           <button
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md justify-center"
             //onClick={runParserTest}
             onClick={redirectToConstruction}
           >
@@ -126,7 +126,7 @@ export default function Dashboard({
             Ensure document generation returns a valid file.
           </p>
           <button
-            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md"
+            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md justify-center"
             //onClick={runGeneratorTest}
             onClick={redirectToConstruction}
           >

@@ -8,8 +8,8 @@ import CollapsibleLink from './CollapsibleLink';
 // Data for sidebar links
 const mainLinks = [
   { to: '/dashboard', icon: 'lucide:house', text: 'Dashboard'},
-  { to: '/change-me', icon: 'mynaui:activity', text: 'My Activity' },
-  { to: '/change-me', icon: 'material-symbols:upload-rounded', text: 'Upload Files' },
+  { to: '/under-construction', icon: 'mynaui:activity', text: 'My Activity' },
+  { to: '/under-construction', icon: 'solar:upload-linear', text: 'Upload Files' },
 ];
 
 const collapsibleSections = [
@@ -17,34 +17,34 @@ const collapsibleSections = [
     icon: <ExcelIcon className="h-5 w-5" />,
     title: 'Excel Data Parser',
     subLinks: [
-      { to: '/change-me', text: 'Prepaid AR' },
-      { to: '/change-me', text: 'Variance Check' },
-      { to: '/change-me', text: 'FDIC' },
-      { to: '/change-me', text: 'Financial Report' },
+      { to: '/under-construction', text: 'FDIC' },
+      { to: '/under-construction', text: 'Financial Report' },
+      { to: '/under-construction', text: 'Prepaid AR' },
+      { to: '/under-construction', text: 'Variance Check' },
     ],
   },
   {
     icon: <WordIcon className="h-5 w-5" />,
     title: 'Document Generators',
     subLinks: [
-      { to: '/change-me', text: 'Notice & Candidacy' },
-      { to: '/change-me', text: 'Letter Head' },
-      { to: '/change-me', text: 'Ballot' },
-      { to: '/change-me', text: 'Application Approval' },
-      { to: '/change-me', text: 'Denial' },
-      { to: '/change-me', text: 'Proxy' },
+      { to: '/under-construction', text: 'Application Approval' },
+      { to: '/under-construction', text: 'Ballot' },
+      { to: '/under-construction', text: 'Denial' },
+      { to: '/under-construction', text: 'Letter Head' },
+      { to: '/under-construction', text: 'Notice & Candidacy' },
+      { to: '/under-construction', text: 'Proxy' },
     ],
   },
 ];
 
 const adminLinks = [
     { to: '/admin/users', icon: 'lucide:users', text: 'User Management' },
-    { to: '/change-me', icon: 'codicon:graph', text: 'User Activity' },
+    { to: '/under-construction', icon: 'codicon:graph', text: 'User Activity' },
     { to: '/admin/data', icon: 'tabler:database', text: 'Database Editor' },
 ];
 
 const superUserLink = { 
-    to: '/change-me', 
+    to: '/under-construction', 
     icon: 'material-symbols:shield-outline-rounded', 
     text: 'System Health' 
 };
@@ -57,18 +57,20 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isAdmin, isSuper, isOpen, onToggle }) => {
-  const linkClasses = ({ isActive }: { isActive: boolean }) =>
-    `flex items-center rounded-md p-2 transition-colors w-full ${
+const linkClasses = ({ isActive }: { isActive: boolean }) =>
+    `flex items-center rounded-md h-10 leading-[1.25] transition-colors w-full ${
       isActive ? 'font-semibold bg-gray-700' : 'hover:bg-gray-600'
-    } ${!isOpen && 'md:justify-center'}`;
+    } ${
+      isOpen ? 'px-2 gap-3' : 'md:justify-center'
+    }`;
 
-  const subLinkClasses = ({ isActive }: { isActive: boolean }) =>
-    `pl-9 text-sm flex items-center space-x-3 rounded-md p-2 transition-colors ${
+const subLinkClasses = ({ isActive }: { isActive: boolean }) =>
+    `flex items-center rounded-md pr-2 pl-10 h-10 leading-[1.25] transition-colors w-full ${ // <-- UPDATED THIS LINE
       isActive ? 'font-semibold text-white bg-gray-700' : 'text-gray-400 hover:bg-gray-600'
     }`;
-    
+
   const textVisibilityClass = `whitespace-nowrap overflow-hidden transition-opacity duration-200 ${
-      isOpen ? 'opacity-100 ml-3' : 'w-0 opacity-0 ml-0'
+      isOpen ? 'opacity-100' : 'w-0 opacity-0 ml-0'
   }`;
 
   const sidebarClasses = [
@@ -85,15 +87,33 @@ const Sidebar: React.FC<SidebarProps> = ({ isAdmin, isSuper, isOpen, onToggle })
   return (
     <aside className={sidebarClasses}>
       <div className={`flex items-center mb-7 ${isOpen ? 'justify-between' : 'justify-center'}`}>
-        {isOpen && <h2 className="text-lg font-semibold whitespace-nowrap">Control Panel</h2>}
-        
+        {isOpen && (
+        <div className="flex items-center gap-1">
+          <img 
+            src="./logo.png" 
+            alt="Logo" 
+            className="h-15 w-15 flex-shrink-0 object-contain" 
+          />
+          <h2 className="text-base whitespace-nowrap font-['Tahoma'] relative bottom-1">
+            TOOLS
+          </h2>
+        </div>
+      )}
+
         {/* toggle button */}
-        <button onClick={onToggle} className="p-1.5 rounded-lg hover:bg-gray-700">
+        <button 
+          onClick={onToggle} 
+          className={`flex items-center flex-none rounded-full hover:bg-gray-600 transition-colors ${
+            isOpen 
+              ? 'p-1.5 justify-center' // Original style when open
+              : 'w-full h-10 md:justify-center' // Style like NavLinks when closed
+          }`}
+        >
           <Icon icon="material-symbols:menu-rounded" className="text-xl" />
         </button>
       </div>
 
-      <nav className="scroll-area flex-1 overflow-y-auto space-y-2 space-y-2">
+      <nav className={`scroll-area flex-1 overflow-y-auto space-y-2 ${isOpen ? 'has-gutter' : ''}`}>
         {/* Main links */}
         {mainLinks.map((link) => (
           <NavLink key={link.text} to={link.to} className={linkClasses}>

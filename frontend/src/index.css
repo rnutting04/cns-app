@@ -5,40 +5,47 @@
     --font-mont: 'Montserrat', sans-serif;
 }
 
-/* Only show scrollbar when the device supports hover */
-@media (hover: hover) {
+body {
+    background-color: #151827;
+    overscroll-behavior: none;
+}
 
-  /* Keep layout stable when scrollbar appears */
-  .sidebar .scroll-area {
-    scrollbar-gutter: stable both-edges;
-  }
+/* Firefox */
+.sidebar .scroll-area {
+  /* Makes scrollbar thin */
+  scrollbar-width: thin;
+  /* 1. Make scrollbar transparent by default (fixes delay) */
+  scrollbar-color: transparent transparent;
+}
 
-  /* Default: hide scrollbar but allow scrolling */
-  .sidebar .scroll-area {
-    /* Firefox */
-    scrollbar-width: none;
-  }
-  /* WebKit (Chrome/Edge/Safari) */
-  .sidebar .scroll-area::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-  }
+/* 3. On hover, make scrollbar visible INSTANTLY */
+.sidebar:hover .scroll-area {
+  scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
+}
 
-  /* On sidebar hover: reveal a thin scrollbar */
-  .sidebar:hover .scroll-area {
-    /* Firefox */
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255,255,255,0.35) transparent;
-  }
-  .sidebar:hover .scroll-area::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-  .sidebar:hover .scroll-area::-webkit-scrollbar-thumb {
-    background-color: rgba(255,255,255,0.35);
-    border-radius: 9999px;
-  }
-  .sidebar:hover .scroll-area::-webkit-scrollbar-track {
-    background: transparent;
-  }
+.sidebar .scroll-area.has-gutter {
+  scrollbar-gutter: stable;
+}
+
+/* WebKit (Chrome/Edge/Safari) */
+.sidebar .scroll-area::-webkit-scrollbar {
+  /* Make scrollbar thin */
+  width: 6px; 
+  height: 6px;
+}
+
+.sidebar .scroll-area::-webkit-scrollbar-track {
+  /* 1. Make track transparent by default */
+  background: transparent;
+}
+
+.sidebar .scroll-area::-webkit-scrollbar-thumb {
+  /* 1. Make thumb transparent by default (fixes delay) */
+  background-color: transparent;
+  border-radius: 9999px;
+}
+
+/* 3. On hover, make thumb visible INSTANTLY */
+.sidebar:hover .scroll-area::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.4);
 }

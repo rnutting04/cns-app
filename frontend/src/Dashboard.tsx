@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./components/ui/Button";
+import DashboardCard from "./components/DashboardCard";
+import ExcelIcon from './components/icons/ExcelIcon';
+import WordIcon from './components/icons/WordIcon';
+import { Icon } from '@iconify/react';
 
 export default function Dashboard({
   username,
@@ -101,59 +105,51 @@ export default function Dashboard({
 
   return (
     <div className="min-h-screen bg-[#151827] text-white p-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Parser */}
-        <div className="bg-[#1A1F37] p-6 rounded-[0.75rem] shadow border-2 border-[#3C4D66]">
-          <h2 className="text-xl font-semibold mb-2">Test Document Parser</h2>
-          <p className="mb-4 text-gray-300">
-            Make sure the parser service is up and responding.
-          </p>
-          <button
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md justify-center"
-            //onClick={runParserTest}
-            onClick={redirectToConstruction}
-          >
-            Run Parser Test
-          </button>
-        </div>
+        <DashboardCard
+          title="Excel Data Parsers"
+          description="Upload files to be parsed and select desired tasks to generate Excel reports."
+          badgeText="XLSX Format"
+          buttonText="View Application"
+          icon={<ExcelIcon />}
+          onClick={redirectToConstruction}
+          variant="green"
+        />
 
         {/* Generator */}
-        <div className="bg-[#1A1F37] p-6 rounded-lg shadow border-2 border-[#3C4D66]">
-          <h2 className="text-xl font-semibold mb-2">
-            Test Document Generator
-          </h2>
-          <p className="mb-4 text-gray-300">
-            Ensure document generation returns a valid file.
-          </p>
-          <button
-            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md justify-center"
-            //onClick={runGeneratorTest}
-            onClick={redirectToConstruction}
-          >
-            Run Generator Test
-          </button>
-        </div>
+        <DashboardCard
+          title="Document Form Generators"
+          description="Fill out forms and automatically generate different document types including contracts, reports, and templates."
+          badgeText="DOCX Format"
+          buttonText="View Application"
+          icon={<WordIcon />}
+          onClick={redirectToConstruction}
+          variant="blue"
+        />
 
         {/* Admin Panel */}
         {isAdmin && (
-          <div className="bg-[#1A1F37] p-6 rounded-lg shadow flex flex-col justify-center items-center border-2 border-[#3C4D66]">
-            <button
-              onClick={() => navigate("/admin/users")}
-              className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-lg font-medium transition"
-            >
-              User Management
-            </button>
-          </div>
+          <DashboardCard
+            title="User Management"
+            description="Manage user accounts, permissions, and roles. Add new users, edit existing accounts, and control access levels."
+            badgeText="User Controls"
+            buttonText="View Application"
+            icon={<Icon icon="lucide:users" className="w-full h-full" />}
+            onClick={() => navigate("/admin/users")}
+            variant="purple"
+          />
         )}
         {isAdmin && (
-          <div className="bg-[#1A1F37] p-6 rounded-lg shadow flex flex-col justify-center items-center border-2 border-[#3C4D66]">
-            <button
-              onClick={() => navigate("/admin/data")}
-              className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-lg font-medium transition"
-            >
-              Data Management
-            </button>
-          </div>
+          <DashboardCard
+            title="Database Editor"
+            description="Direct database access for data management. Edit tables, run queries, and maintain system data integrity."
+            badgeText="Database Access"
+            buttonText="View Application"
+            icon={<Icon icon="tabler:database" className="w-full h-full" />}
+            onClick={() => navigate("/admin/data")}
+            variant="purple"
+          />
         )}
       </div>
       {isSuper &&
